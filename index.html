@@ -28,7 +28,7 @@
         window.addEventListener('resize', onWindowResize, false);
 
         loader = new THREE.GLTFLoader();
-        loader.load('https://github.com/tvonich/family_madness_trophy/raw/main/3D_Renderings/spalding_basketball.glb', function(gltf) {
+        loader.load('https://github.com/tvonich/family_madness_trophy/blob/main/3D_Renderings/spalding_basketball.glb', function(gltf) {
             model = gltf.scene;
             scene.add(model);
             animate();
