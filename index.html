@@ -32,6 +32,7 @@
         loader = new THREE.GLTFLoader();
         loader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/3D_Renderings/ncaa_basketball_model_-_free_download.glb', function(gltf) {
             model = gltf.scene;
+            model.position.set(0, 0, 0); // Adjust these values as needed to center your model
             scene.add(model);
             animate();
         }, undefined, function(error) {
@@ -54,7 +55,7 @@
 
     function animate() {
         requestAnimationFrame(animate);
-        if (model) model.rotation.y += 0.01;
+        if (model) model.rotation.y += 0.005;
         renderer.render(scene, camera);
     }
 
