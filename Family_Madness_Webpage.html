@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2299.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;3D Trophy Showcase&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body { margin: 0; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>canvas { display: block; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://threejs.org/build/three.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let scene, camera, renderer, loader, model;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function init() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scene = new THREE.Scene();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scene.background = new THREE.Color(0xdddddd);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>camera.position.set(0, 1, 2);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>renderer = new THREE.WebGLRenderer({antialias: true});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>renderer.setSize(window.innerWidth, window.innerHeight);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.body.appendChild(renderer.domElement);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>loader = new THREE.GLTFLoader();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>loader.load('trophy_model.glb', function(gltf) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>model = gltf.scene;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>scene.add(model);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>animate();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}, undefined, function(error) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>console.error(error);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>scene.add(light);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function animate() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>requestAnimationFrame(animate);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (model) model.rotation.y += 0.01;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>renderer.render(scene, camera);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>init();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
