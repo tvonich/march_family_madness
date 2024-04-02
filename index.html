@@ -20,6 +20,18 @@
         // Scene
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xeeeeee); // Set to a neutral light color
+        
+        // Load and set the background texture
+        const loader = new THREE.TextureLoader();
+        loader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/team_logos/uconn_logo', // Adjust the path to your uploaded image
+            function(texture) {
+                scene.background = texture;
+            },
+            undefined,
+            function(err) {
+                console.error('An error occurred:', err);
+            }
+        );
 
         // Camera
         camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
