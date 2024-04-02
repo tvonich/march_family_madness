@@ -1,0 +1,15 @@
+# Blender MTL File: 'BasketballTrophy001.blend'
+# Material Count: 1
+
+newmtl Mat_BasketballTrophy001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -bm 0.750000 C:\\BradleyBiggerstaff\\Exports\\BasketballTrophy001\\Materials\\Mat_BasketballTrophy001-Normal.png
+map_Ns C:\\BradleyBiggerstaff\\Exports\\BasketballTrophy001\\Materials\\Mat_BasketballTrophy001-Roughness.png
+refl C:\\BradleyBiggerstaff\\Exports\\BasketballTrophy001\\Materials\\Mat_BasketballTrophy001-Metallic.png
