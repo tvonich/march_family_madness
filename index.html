@@ -16,7 +16,7 @@
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/ColladaLoader.js"></script>
 <script>
     let scene, camera, renderer;
-    let model;
+    let model,object;
 
     function init() {
         // Scene
@@ -64,6 +64,11 @@
         gloader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/3D_Renderings/ncaa_basketball_model_-_free_download.glb', function(gltf) {
             model = gltf.scene;
             model.position.set(1, 1, 0); // Center the model
+            model.rotation.x = Math.PI *2/2 
+            model.rotation.z = Math.PI *1/2 
+            model.scale.set(.3, .3, .3); // Scales the object up by a factor of 2
+
+
             scene.add(model);
             animate();
         });
@@ -79,8 +84,15 @@
 
             objLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/BasketballTrophy001.obj', function(object) {
                 scene.add(object); // Add the loaded object to the scene
-                object.position.set(0, 0, 0); // Adjust position, scale, or rotation as needed
-                object.scale.set(1, 1, 1);
+                object.position.set(0, -0.75, 0); // Adjust position, scale, or rotation as needed
+                object.scale.set(3, 3, 3);
+                object.rotation.y = Math.PI ;
+                object.rotation.x = Math.PI /2;
+
+                //object.rotation.z = Math.PI ;
+
+
+
                 // Additional setup or animation logic can go here
             }, undefined, function(error) {
                 console.error('An error happened during OBJ loading', error);
@@ -103,9 +115,10 @@
     function animate() {
         requestAnimationFrame(animate);
         if (model) {
-            // Optional: Add some rotation to the model
-            model.rotation.y += 0.01;
+            //Optional: Add some rotation to the model
+            model.rotation.x += 0.01;
         }
+
         renderer.render(scene, camera);
     }
 
