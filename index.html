@@ -24,7 +24,7 @@
         
         // Load and set the background texture
         const logo_loader = new THREE.TextureLoader();
-        logo_loader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/main/team_logos/uconn_logo.jpeg', // Adjust the path to your uploaded image
+        logo_loader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/OBJ/team_logos/uconn_logo.jpeg', // Adjust the path to your uploaded image
             function(texture) {
                 texture.wrapS = THREE.RepeatWrapping;
                 texture.wrapT = THREE.RepeatWrapping;
@@ -54,13 +54,13 @@
         // Model Loader
         // Load MTL
         const mtlLoader = new THREE.MTLLoader();
-        mtlLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/main/models/BasketballTrophy001.mtl', (materials) => {
+        mtlLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/OBJ/models/BasketballTrophy001.mtl', (materials) => {
         materials.preload();
 
         // Load OBJ
         const objLoader = new THREE.OBJLoader();
         objLoader.setMaterials(materials);
-        objLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/main/models/BasketballTrophy001.obj', (object) => {
+        objLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/OBJ/models/BasketballTrophy001.obj', (object) => {
             scene.add(object);
             // Optionally set the position of the object here
             object.position.set(0, 0, 0);
