@@ -19,22 +19,22 @@
     function init() {
         // Scene
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xeeeeee); // Set to a neutral light color
+        scene.background = new THREE.Color(0x000000); // Set to a neutral light color
         
         // Load and set the background texture
         const logo_loader = new THREE.TextureLoader();
-        logo_loader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/team_logos/uconn_logo.jpeg', // Adjust the path to your uploaded image
-            function(texture) {
-                texture.wrapS = THREE.RepeatWrapping;
-                texture.wrapT = THREE.RepeatWrapping;
-                texture.repeat.set(4, 4);
-                scene.background = texture;
-            },
-            undefined,
-            function(err) {
-                console.error('An error occurred:', err);
-            }
-        );
+        // logo_loader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/team_logos/uconn_logo.jpeg', // Adjust the path to your uploaded image
+        //     function(texture) {
+        //         texture.wrapS = THREE.RepeatWrapping;
+        //         texture.wrapT = THREE.RepeatWrapping;
+        //         texture.repeat.set(4, 4);
+        //         scene.background = texture;
+        //     },
+        //     undefined,
+        //     function(err) {
+        //         console.error('An error occurred:', err);
+        //     }
+        // );
 
         // Camera
         camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -49,6 +49,16 @@
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // White, full intensity
         directionalLight.position.set(1, 1, 1); // Position the light
         scene.add(directionalLight);
+
+        const spotLight = new THREE.SpotLight(0xffffff, 1); // white light, full intensity
+        spotLight.position.set(0, 1, 1); // Position the spotlight above the scene
+        spotLight.angle = Math.PI / 4; // Set the cone angle
+        spotLight.penumbra = 0.5; // Set the penumbra for a softer edge
+        spotLight.decay = 2; // How the light intensity decays over distance
+        spotLight.distance = 100; // Maximum range of the light
+        spotLight.target.position.set(0, 0, 0); // Target the light at the center of the scene
+        scene.add(spotLight);
+        scene.add(spotLight.target); // Don't forget to add the target to the scene
 
         // Model Loader
         const loader = new THREE.GLTFLoader();
