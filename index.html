@@ -54,19 +54,18 @@
         // Model Loader
         // Load MTL
         const mtlLoader = new THREE.MTLLoader();
-        mtlLoader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/3D_Renderings/OBJ/BasketballTrophy001.mtl', (materials) => {
+        mtlLoader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/models/OBJ/BasketballTrophy001.mtl', (materials) => {
         materials.preload();
 
         // Load OBJ
         const objLoader = new THREE.OBJLoader();
         objLoader.setMaterials(materials);
-        objLoader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/3D_Renderings/OBJ/BasketballTrophy001.obj', (object) => {
+        objLoader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/models/OBJ/BasketballTrophy001.obj', (object) => {
             scene.add(object);
             // Optionally set the position of the object here
             object.position.set(0, 0, 0);
             });
         });
-
 
         // Handle Window Resize
         window.addEventListener('resize', onWindowResize, false);
