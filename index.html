@@ -72,35 +72,23 @@
         const mtlLoader = new THREE.MTLLoader();
         mtlLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/BasketballTrophy001.mtl', function(materials) {
             materials.preload();
-            // Materials loaded, proceed to load OBJ
-            // This is where you'll later add the OBJ loading, after confirming MTL works
+            
+            // Materials loaded, now load OBJ within the same scope
+            const objLoader = new THREE.OBJLoader();
+            objLoader.setMaterials(materials); // Now 'materials' is defined and accessible
+
+            objLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/BasketballTrophy001.obj', function(object) {
+                scene.add(object); // Add the loaded object to the scene
+                object.position.set(0, 0, 0); // Adjust position, scale, or rotation as needed
+                object.scale.set(1, 1, 1);
+                // Additional setup or animation logic can go here
+            }, undefined, function(error) {
+                console.error('An error happened during OBJ loading', error);
+            });
+        }, undefined, function(error) {
+            console.error('An error occurred while loading the MTL:', error);
         });
 
-        // Load OBJ
-        const objLoader = new THREE.OBJLoader();
-        // Apply the materials loaded from the .mtl file to the OBJLoader instance
-        objLoader.setMaterials(materials);
-
-        objLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/BasketballTrophy001.obj', function(object) {
-            // The loaded object is a THREE.Group object if it contains multiple meshes
-            scene.add(object); // Add the loaded object to the scene
-
-            // Optionally, adjust the position, scale, or rotation of the object as needed
-            object.position.set(0, 0, 0);
-            object.scale.set(1, 1, 1); // Adjust scale if needed
-            // object.rotation.set(0, Math.PI / 2, 0); // Rotate the object if needed
-
-            // If you have animation logic or additional setup, it can go here
-            animate();
-        }, 
-        // onProgress callback
-        function(xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        },
-        // onError callback
-        function(error) {
-            console.error('An error happened during OBJ loading', error);
-        });
 
         // Handle Window Resize
         window.addEventListener('resize', onWindowResize, false);
