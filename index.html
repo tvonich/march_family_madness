@@ -13,10 +13,9 @@
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/MTLLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/OBJLoader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/ColladaLoader.js"></script>
 <script>
     let scene, camera, renderer;
-    let model,object;
+    let model, object;
     let rotate_on = true; // Flag to control rotation
 
     function init() {
@@ -50,30 +49,6 @@
         directionalLight.position.set(1, 1, 1); // Position the light
         scene.add(directionalLight);
 
-        const spotLight = new THREE.SpotLight(0xffffff, 1); // white light, full intensity
-        spotLight.position.set(0, 1, 2); // Position the spotlight above the scene
-        spotLight.angle = Math.PI / 4; // Set the cone angle
-        spotLight.penumbra = 0.1; // Set the penumbra for a softer edge
-        spotLight.decay = 2; // How the light intensity decays over distance
-        spotLight.distance = 200; // Maximum range of the light
-        spotLight.target.position.set(0, 0, 0); // Target the light at the center of the scene
-        scene.add(spotLight);
-        scene.add(spotLight.target); // Don't forget to add the target to the scene
-
-        // Model Loader
-        const gloader = new THREE.GLTFLoader();
-        gloader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/3D_Renderings/ncaa_basketball_model_-_free_download.glb', function(gltf) {
-            model = gltf.scene;
-            model.position.set(1, 1, 0); // Center the model
-            model.rotation.x = Math.PI *2/2 
-            model.rotation.z = Math.PI *1/2 
-            model.scale.set(.3, .3, .3); // Scales the object up by a factor of 2
-
-
-            scene.add(model);
-            animate();
-        });
-
         // Load MTL
         const mtlLoader = new THREE.MTLLoader();
         mtlLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/BasketballTrophy001.mtl', function(materials) {
@@ -91,10 +66,6 @@
                 object.rotation.y = Math.PI ;
                 object.rotation.x = Math.PI /2;
 
-                //object.rotation.z = Math.PI ;
-
-
-
                 // Additional setup or animation logic can go here
             }, undefined, function(error) {
                 console.error('An error happened during OBJ loading', error);
@@ -110,6 +81,8 @@
 
         // Handle Window Resize
         window.addEventListener('resize', onWindowResize, false);
+
+        animate();
     }
 
     function onWindowResize() {
@@ -120,10 +93,6 @@
 
     function animate() {
         requestAnimationFrame(animate);
-        if (model) {
-            //Optional: Add some rotation to the model
-            model.rotation.y += 0.01;
-        }
         // Rotate the OBJ model
         if (object && rotate_on) {
             object.rotation.z += 0.003; // Example: rotate around the Y-axis
