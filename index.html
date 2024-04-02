@@ -25,7 +25,7 @@
         
         // Load and set the background texture
         const tloader = new THREE.TextureLoader();
-        tloader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/team_logos/uconn_logo.png', // Adjust the path to your uploaded image
+        tloader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/team_logos/uconn_logo.jpeg', // Adjust the path to your uploaded image
             function(texture) {
                 scene.background = texture;
             },
@@ -60,12 +60,46 @@
         scene.add(spotLight.target); // Don't forget to add the target to the scene
 
         // Model Loader
-        const loader = new THREE.GLTFLoader();
-        loader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/3D_Renderings/ncaa_basketball_model_-_free_download.glb', function(gltf) {
+        const gloader = new THREE.GLTFLoader();
+        gloader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/OBJ/models/ncaa_basketball_model_-_free_download.glb', function(gltf) {
             model = gltf.scene;
-            model.position.set(0, 0, 0); // Center the model
+            model.position.set(1, 1, 0); // Center the model
             scene.add(model);
             animate();
+        });
+
+        // Load MTL
+        const mtlLoader = new THREE.MTLLoader();
+        mtlLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/OBJ/models/BasketballTrophy001.mtl', function(materials) {
+            materials.preload();
+            // Materials loaded, proceed to load OBJ
+            // This is where you'll later add the OBJ loading, after confirming MTL works
+        });
+
+        // Load OBJ
+        const objLoader = new THREE.OBJLoader();
+        // Apply the materials loaded from the .mtl file to the OBJLoader instance
+        objLoader.setMaterials(materials);
+
+        objLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/OBJ/models/BasketballTrophy001.obj', function(object) {
+            // The loaded object is a THREE.Group object if it contains multiple meshes
+            scene.add(object); // Add the loaded object to the scene
+
+            // Optionally, adjust the position, scale, or rotation of the object as needed
+            object.position.set(0, 0, 0);
+            object.scale.set(1, 1, 1); // Adjust scale if needed
+            // object.rotation.set(0, Math.PI / 2, 0); // Rotate the object if needed
+
+            // If you have animation logic or additional setup, it can go here
+            animate();
+        }, 
+        // onProgress callback
+        function(xhr) {
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        },
+        // onError callback
+        function(error) {
+            console.error('An error happened during OBJ loading', error);
         });
 
         // Handle Window Resize
