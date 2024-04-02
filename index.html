@@ -11,7 +11,9 @@
 <body>
 <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/MTLLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/OBJLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/ColladaLoader.js"></script>
 <script>
     let scene, camera, renderer;
     let model;
@@ -22,8 +24,8 @@
         scene.background = new THREE.Color(0xeeeeee); // Set to a neutral light color
         
         // Load and set the background texture
-        const loader = new THREE.TextureLoader();
-        loader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/team_logos/uconn_logo', // Adjust the path to your uploaded image
+        const tloader = new THREE.TextureLoader();
+        tloader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/team_logos/uconn_logo.png', // Adjust the path to your uploaded image
             function(texture) {
                 scene.background = texture;
             },
@@ -46,6 +48,16 @@
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // White, full intensity
         directionalLight.position.set(1, 1, 1); // Position the light
         scene.add(directionalLight);
+
+        const spotLight = new THREE.SpotLight(0xffffff, 1); // white light, full intensity
+        spotLight.position.set(0, 1, 2); // Position the spotlight above the scene
+        spotLight.angle = Math.PI / 4; // Set the cone angle
+        spotLight.penumbra = 0.1; // Set the penumbra for a softer edge
+        spotLight.decay = 2; // How the light intensity decays over distance
+        spotLight.distance = 200; // Maximum range of the light
+        spotLight.target.position.set(0, 0, 0); // Target the light at the center of the scene
+        scene.add(spotLight);
+        scene.add(spotLight.target); // Don't forget to add the target to the scene
 
         // Model Loader
         const loader = new THREE.GLTFLoader();
