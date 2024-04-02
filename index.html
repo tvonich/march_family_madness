@@ -17,6 +17,7 @@
 <script>
     let scene, camera, renderer;
     let model,object;
+    let rotate_on = true; // Flag to control rotation
 
     function init() {
         // Scene
@@ -82,7 +83,8 @@
             const objLoader = new THREE.OBJLoader();
             objLoader.setMaterials(materials); // Now 'materials' is defined and accessible
 
-            objLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/BasketballTrophy001.obj', function(object) {
+            objLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/BasketballTrophy001.obj', function(l_object) {
+                object =l_object
                 scene.add(object); // Add the loaded object to the scene
                 object.position.set(0, -0.75, 0); // Adjust position, scale, or rotation as needed
                 object.scale.set(3, 3, 3);
@@ -100,7 +102,11 @@
         }, undefined, function(error) {
             console.error('An error occurred while loading the MTL:', error);
         });
-
+        
+        // Rotation Toggler from Click
+        document.addEventListener('click', function() {
+        rotateObject = !rotateObject; // Toggle the flag
+        });
 
         // Handle Window Resize
         window.addEventListener('resize', onWindowResize, false);
@@ -116,9 +122,12 @@
         requestAnimationFrame(animate);
         if (model) {
             //Optional: Add some rotation to the model
-            model.rotation.x += 0.01;
+            model.rotation.y += 0.01;
         }
-
+        // Rotate the OBJ model
+        if (object && rotate_on) {
+            object.rotation.z += 0.003; // Example: rotate around the Y-axis
+        }
         renderer.render(scene, camera);
     }
 
