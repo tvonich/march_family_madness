@@ -13,27 +13,29 @@
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/MTLLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/OBJLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
 <script>
     let scene, camera, renderer;
-    let model, object;
+    let model, object, controls;
     let rotate_on = true; // Flag to control rotation
 
     function init() {
         // Scene
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xeeeeee); // Set to a neutral light color
-        
+        //scene.background = new THREE.Color(0x000000); // Set to a neutral light color
+
         // Load and set the background texture
-        const tloader = new THREE.TextureLoader();
-        tloader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/team_logos/uconn_logo.jpeg', // Adjust the path to your uploaded image
-            function(texture) {
-                scene.background = texture;
-            },
-            undefined,
-            function(err) {
-                console.error('An error occurred:', err);
-            }
-        );
+        // const tloader = new THREE.TextureLoader();
+        // tloader.load('https://raw.githubusercontent.com/tvonich/family_madness_trophy/main/team_logos/uconn_logo.jpeg', // Adjust the path to your uploaded image
+        //     function(texture) {
+        //         scene.background = texture;
+        //     },
+        //     undefined,
+        //     function(err) {
+        //         console.error('An error occurred:', err);
+        //     }
+        // );
 
         // Camera
         camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -44,10 +46,45 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
+        // Add Raycaster for mouse interaction
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+    function onMouseClick(event) {
+         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+         mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+        // Update the picking ray with the camera and mouse position
+        raycaster.setFromCamera(mouse, camera);
+
+        // Calculate objects intersecting the picking ray
+        const intersects = raycaster.intersectObjects(scene.children, true);
+
+        if (intersects.length > 0) {
+            // Set the first intersected object as the new target for the OrbitControls
+            const target = intersects[0].point;
+            controls.target.set(target.x, target.y, target.z);
+          }
+    }         
+
+    // Add event listener for mouse click at the end of the init function
+    window.addEventListener('dblclick', onMouseClick, false);
+
         // Lighting
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // White, full intensity
         directionalLight.position.set(1, 1, 1); // Position the light
         scene.add(directionalLight);
+
+        const hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+        scene.add(hemisphereLight);
+
+
+        // OrbitControls for camera interaction
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true; // Optional: for smoother drag movements
+        controls.dampingFactor = 0.05;
+        controls.screenSpacePanning = false;
+        controls.maxPolarAngle = Math.PI / 2; // Limit vertical rotation
 
         // Load MTL
         const mtlLoader = new THREE.MTLLoader();
@@ -60,6 +97,31 @@
 
             objLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/BasketballTrophy001.obj', function(l_object) {
                 object =l_object
+
+                // Load the texture maps
+                const textureLoader = new THREE.TextureLoader();
+                const normalMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Normal.png');
+                const roughnessMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Roughness.png');
+                const metalMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Metallic.png'); // If you have a metallic map
+                
+                // Create a MeshStandardMaterial
+                const material = new THREE.MeshStandardMaterial({
+                    color: 0xffd700, // Gold color, for example
+                    metalness: 1, // Assuming it's metal
+                    roughness: 0.4, // Adjust as needed
+                    normalMap: normalMap,
+                    roughnessMap: roughnessMap,
+                    metalnessMap: metalMap, // If you have a metallic map
+                    // envMap: envMap, // If you have an environment map
+                });
+
+                // Apply the material to the object
+                object.traverse((node) => {
+                    if (node.isMesh) {
+                        node.material = material;
+                    }
+                });
+
                 scene.add(object); // Add the loaded object to the scene
                 object.position.set(0, -0.75, 0); // Adjust position, scale, or rotation as needed
                 object.scale.set(3, 3, 3);
@@ -93,9 +155,12 @@
 
     function animate() {
         requestAnimationFrame(animate);
+
+        controls.update(); // Only required if controls.enableDamping = true, or if controls.autoRotate = true
+
         // Rotate the OBJ model
         if (object && rotate_on) {
-            object.rotation.z += 0.003; // Example: rotate around the Y-axis
+            object.rotation.z += 0.0012; // Example: rotate around the Y-axis
         }
         renderer.render(scene, camera);
     }

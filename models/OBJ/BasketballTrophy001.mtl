@@ -10,6 +10,6 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Bump -bm 0.750000 https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Normal.png
-map_Ns https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Roughness.png
-refl https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Metallic.png
+map_Bump -bm 0.750000 https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/model/OBJ/Materials/Mat_BasketballTrophy001-Normal.png
+map_Ns https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Material/Mat_BasketballTrophy001-Roughness.png
+refl https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Material/Mat_BasketballTrophy001-Metallic.png
