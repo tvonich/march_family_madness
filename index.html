@@ -103,12 +103,16 @@
                 const normalMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Normal.png');
                 const roughnessMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Roughness.png');
                 const metalMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Metallic.png'); // If you have a metallic map
+                const aoMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-AO.png');
+                const diffuseMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Diffuse.png');
                 
                 // Create a MeshStandardMaterial
                 const material = new THREE.MeshStandardMaterial({
-                    color: 0xffd700, // Gold color, for example
-                    metalness: 1, // Assuming it's metal
-                    roughness: 0.4, // Adjust as needed
+                    //color: 0xffd700, // Gold color, for example
+                    //metalness: 1, // Assuming it's metal
+                    //roughness: 0.4, // Adjust as needed
+                    map: diffuseMap, // The color texture
+                    aoMap: aoMap, // Ambient Occlusion texture
                     normalMap: normalMap,
                     roughnessMap: roughnessMap,
                     metalnessMap: metalMap, // If you have a metallic map
@@ -116,9 +120,12 @@
                 });
 
                 // Apply the material to the object
-                object.traverse((node) => {
-                    if (node.isMesh) {
-                        node.material = material;
+                object.traverse((child) => {
+                    if (child.isMesh) {
+                        child.material = material;
+                        if (child.material.aoMap) {
+                            child.geometry.setAttribute('uv2', child.geometry.attributes.uv);
+                        }
                     }
                 });
 
