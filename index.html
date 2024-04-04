@@ -102,7 +102,7 @@
                 const textureLoader = new THREE.TextureLoader();
                 const normalMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Normal.png');
                 const roughnessMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Roughness.png');
-                const envMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Metallic.png'); // If you have a metallic map
+                //const envMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Metallic.png'); // If you have a metallic map
                 const aoMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-AO.png');
                 const diffuseMap = textureLoader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/Restart/models/OBJ/Materials/Mat_BasketballTrophy001-Diffuse.png');
 
@@ -112,9 +112,9 @@
                     map: diffuseMap, // Color texture
                     aoMap: aoMap, // Ambient occlusion texture
                     normalMap: normalMap, // Normal map for surface details
-                    metalnessMap: envMap, // Environment map for reflections
+                    //metalnessMap: envMap, // Environment map for reflections
                 });
-
+                
                 // Apply the material to the object
                 object.traverse((child) => {
                     if (child.isMesh) {
@@ -127,7 +127,7 @@
                 object.scale.set(3, 3, 3);
                 object.rotation.y = Math.PI ;
                 object.rotation.x = Math.PI /2;
-
+    
                 // Additional setup or animation logic can go here
             }, undefined, function(error) {
                 console.error('An error happened during OBJ loading', error);
