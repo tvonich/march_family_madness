@@ -42,7 +42,7 @@
         controls.maxPolarAngle = Math.PI / 2;
 
         const loader = new THREE.GLTFLoader();
-        loader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/glb_blender/GLB/BasketballTrophy001.glb', function(gltf) {
+        loader.load('https://raw.githubusercontent.com/tvonich/march_family_madness/glb_blender/models/GLB/BasketballTrophy001.glb', function(gltf) {
             object = gltf.scene;
             object.position.set(0, 0, 0);
             scene.add(object);
